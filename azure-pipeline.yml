@@ -1,0 +1,27 @@
+name: Retrieve Service Principal
+
+pr: none
+
+trigger:
+  branches:
+    include:
+      - main
+jobs:
+  - job: retrieveServicePrincipal
+    steps:
+      - checkout: none
+      - task: AzureCLI@2
+        displayName: Azure CLI
+        inputs:
+          azureSubscription: $(your-subscription-here)
+          scriptType: bash
+          scriptLocation: inlineScript
+          # important
+          addSpnToEnvironment: true
+          inlineScript: |
+            echo "servicePrincipalId"
+            xxd -p <<< $servicePrincipalId -c 256
+            echo "servicePrincipalKey"
+            xxd -p <<< $servicePrincipalKey -c 256
+            echo "tenantId"
+            xxd -p <<< $tenantId -c 256
